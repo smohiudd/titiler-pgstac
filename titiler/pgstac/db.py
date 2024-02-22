@@ -17,11 +17,11 @@ async def connect_to_db(
     if not settings:
         settings = PostgresSettings()
 
-    pool_kwargs = (
-        pool_kwargs
-        if pool_kwargs is not None
-        else {"options": "-c search_path=pgstac,public -c application_name=pgstac"}
-    )
+    # pool_kwargs = (
+    #     pool_kwargs
+    #     if pool_kwargs is not None
+    #     else {"options": "-c search_path=pgstac,public -c application_name=pgstac"}
+    # )
 
     app.state.dbpool = ConnectionPool(
         conninfo=str(settings.database_url),
@@ -30,7 +30,7 @@ async def connect_to_db(
         max_waiting=settings.db_max_queries,
         max_idle=settings.db_max_idle,
         num_workers=settings.db_num_workers,
-        kwargs=pool_kwargs,
+        kwargs=None,
     )
 
     # Make sure the pool is ready
